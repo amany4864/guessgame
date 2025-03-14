@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react'
 import './GuessGame.css'
 import Leaderboard from './Leaderboard'
 
+const upperlimit = 100
+const lowerlimit = 1
 const GuessGame = () => {
-  const [targetNumber] = useState(() => Math.floor(Math.random() * 1000) + 1)
+  const [targetNumber] = useState(() => Math.floor(Math.random() * upperlimit) + 1)
   const [guess, setGuess] = useState('')
   const [message, setMessage] = useState('Make your first guess!')
   const [attempts, setAttempts] = useState(0)
@@ -19,8 +21,8 @@ const GuessGame = () => {
     
     const userGuess = parseInt(guess)
     
-    if (isNaN(userGuess) || userGuess < 1 || userGuess > 1000) {
-      setMessage('Please enter a valid number between 1 and 1000')
+    if (isNaN(userGuess) || userGuess < lowerlimit || userGuess > upperlimit) {
+      setMessage('Please enter a valid number between 1 and 100')
       return
     }
 
@@ -62,7 +64,7 @@ const GuessGame = () => {
     <div className="guess-game">
       <h1>Guess the Number</h1>
       <p className="instructions">
-        I'm thinking of a number between 1 and 1000...
+        I'm thinking of a number between 1 and 100...
       </p>
 
       <form onSubmit={handleGuess}>
@@ -72,7 +74,7 @@ const GuessGame = () => {
           onChange={(e) => setGuess(e.target.value)}
           placeholder="Enter your guess"
           min="1"
-          max="1000"
+          max="100"
           disabled={gameOver}
         />
         <button type="submit" disabled={gameOver}>
