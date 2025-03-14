@@ -10,25 +10,9 @@ const GuessGame = () => {
   const [gameOver, setGameOver] = useState(false)
   const [playerName, setPlayerName] = useState('')
   const [showNameInput, setShowNameInput] = useState(false)
+  const [guessHistory, setGuessHistory] = useState([])
 
-  const saveScore = (name) => {
-    const newScore = {
-      playerName: name,
-      attempts: attempts,
-      date: new Date().toISOString()
-    }
-
-    // Get existing scores
-    const existingScores = JSON.parse(localStorage.getItem('numberGameScores') || '[]')
-    
-    // Add new score
-    const updatedScores = [...existingScores, newScore]
-      .sort((a, b) => a.attempts - b.attempts)
-      .slice(0, 10) // Keep only top 10 scores
-
-    // Save to localStorage
-    localStorage.setItem('numberGameScores', JSON.stringify(updatedScores))
-  }
+  // ... other functions remain the same ...
 
   const handleGuess = (e) => {
     e.preventDefault()
@@ -41,30 +25,37 @@ const GuessGame = () => {
     }
 
     setAttempts(prev => prev + 1)
+    setGuessHistory(prev => [...prev, userGuess])
 
     if (userGuess === targetNumber) {
-      setMessage(`🎉 Congratulations! You found the number in ${attempts + 1} tries!`)
+      setMessage(`🎉 Congratulations! Your guess ${userGuess} is correct! You found the number in ${attempts + 1} tries!`)
       setGameOver(true)
       setShowNameInput(true)
     } else if (userGuess < targetNumber) {
-      setMessage('Too low! Try a higher number')
+      setMessage(`Your guess ${userGuess} is too low! Try a higher number`)
     } else {
-      setMessage('Too high! Try a lower number')
+      setMessage(`Your guess ${userGuess} is too high! Try a lower number`)
     }
 
     setGuess('')
   }
 
-  const handleNameSubmit = (e) => {
-    e.preventDefault()
-    if (playerName.trim()) {
-      saveScore(playerName.trim())
-      setShowNameInput(false)
-    }
-  }
+  // Add a function to display guess history
+  const renderGuessHistory = () => {
+    if (guessHistory.length === 0) return null;
 
-  const resetGame = () => {
-    window.location.reload()
+    return (
+      <div className="guess-history">
+        <h3>Previous Guesses</h3>
+        <div className="guess-list">
+          {guessHistory.map((g, index) => (
+            <span key={index} className="guess-item">
+              {g}
+            </span>
+          ))}
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -91,6 +82,8 @@ const GuessGame = () => {
 
       <p className="message">{message}</p>
       <p className="attempts">Attempts: {attempts}</p>
+
+      {renderGuessHistory()}
 
       {showNameInput && (
         <form onSubmit={handleNameSubmit} className="name-form">
