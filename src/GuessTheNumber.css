@@ -1,0 +1,24 @@
+.guess-the-number {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .guess-the-number h1 {
+    font-size: 2em;
+  }
+  
+  .guess-the-number input {
+    padding: 10px;
+    font-size: 1em;
+    margin-right: 10px;
+  }
+  
+  .guess-the-number button {
+    padding: 10px 20px;
+    font-size: 1em;
+  }
+  
+  .guess-the-number p {
+    font-size: 1.2em;
+    margin-top: 20px;
+  }
