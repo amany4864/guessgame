@@ -3,7 +3,7 @@ import './GuessGame.css'
 import Leaderboard from './Leaderboard'
 
 const GuessGame = () => {
-  const [targetNumber] = useState(() => Math.floor(Math.random() * 100) + 1)
+  const [targetNumber] = useState(() => Math.floor(Math.random() * 1000) + 1)
   console.log('Target Number:', targetNumber)
   const [guess, setGuess] = useState('')
   const [message, setMessage] = useState('Make your first guess!')
@@ -51,8 +51,8 @@ const GuessGame = () => {
     
     const userGuess = parseInt(guess)
     
-    if (isNaN(userGuess) || userGuess < 1 || userGuess > 100) {
-      setMessage('Please enter a valid number between 1 and 100')
+    if (isNaN(userGuess) || userGuess < 1 || userGuess > 1000) {
+      setMessage('Please enter a valid number between 1 and 1000')
       return
     }
 
@@ -91,7 +91,7 @@ const GuessGame = () => {
 
   const resetGame = () => {
     // Use state updates instead of page reload for a smoother experience
-    setTargetNumber(Math.floor(Math.random() * 100) + 1)
+    setTargetNumber(Math.floor(Math.random() * 1000) + 1)
     setGuess('')
     setMessage('Make your first guess!')
     setAttempts(0)
@@ -117,7 +117,7 @@ const GuessGame = () => {
     <div className="guess-game">
       <h1>Guess the Number</h1>
       <p className="instructions">
-        I'm thinking of a number between 1 and 100...
+        I'm thinking of a number between 1 and 1000...
       </p>
 
       <form onSubmit={handleGuess}>
@@ -127,7 +127,7 @@ const GuessGame = () => {
           onChange={(e) => setGuess(e.target.value)}
           placeholder="Enter your guess"
           min="1"
-          max="100"
+          max="1000"
           disabled={gameOver && !showNameInput}
         />
         <button type="submit" disabled={gameOver && !showNameInput}>
